@@ -1,0 +1,69 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 720,
+  "height": 350,
+  "title": "Victoria-wide waste streams over time",
+  "data": {
+    "url": "data/waste_lga_yearly.csv"
+  },
+  "transform": [
+    {
+      "aggregate": [
+        {
+          "op": "sum",
+          "field": "landfill_tonnes",
+          "as": "Total landfill tonnes"
+        },
+        {
+          "op": "sum",
+          "field": "recovered_tonnes",
+          "as": "Total recovered tonnes"
+        }
+      ],
+      "groupby": ["financial_year"]
+    },
+    {
+      "fold": [
+        "Total landfill tonnes",
+        "Total recovered tonnes"
+      ],
+      "as": ["Waste type", "Tonnes"]
+    }
+  ],
+  "mark": {
+    "type": "line",
+    "point": true
+  },
+  "encoding": {
+    "x": {
+      "field": "financial_year",
+      "type": "ordinal",
+      "title": "Financial year"
+    },
+    "y": {
+      "field": "Tonnes",
+      "type": "quantitative",
+      "title": "Tonnes"
+    },
+    "color": {
+      "field": "Waste type",
+      "type": "nominal"
+    },
+    "tooltip": [
+      {
+        "field": "financial_year",
+        "type": "ordinal",
+        "title": "Financial year"
+      },
+      {
+        "field": "Waste type",
+        "type": "nominal"
+      },
+      {
+        "field": "Tonnes",
+        "type": "quantitative",
+        "format": ",.0f"
+      }
+    ]
+  }
+}

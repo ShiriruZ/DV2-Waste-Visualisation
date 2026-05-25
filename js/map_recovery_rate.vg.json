@@ -1,0 +1,74 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 720,
+  "height": 500,
+  "title": "Waste recovery rate by Victorian council",
+  "data": {
+    "url": "data/vic_lga_2024.geojson",
+    "format": {
+      "type": "json",
+      "property": "features"
+    }
+  },
+  "transform": [
+    {
+      "lookup": "properties.LGA_NAME24",
+      "from": {
+        "data": {
+          "url": "data/waste_latest.csv"
+        },
+        "key": "lga_name",
+        "fields": [
+          "recovery_rate",
+          "landfill_kg_per_person",
+          "recovered_kg_per_person",
+          "total_waste_tonnes"
+        ]
+      }
+    }
+  ],
+  "projection": {
+    "type": "mercator"
+  },
+  "mark": {
+    "type": "geoshape",
+    "stroke": "white",
+    "strokeWidth": 0.5
+  },
+  "encoding": {
+    "color": {
+      "field": "recovery_rate",
+      "type": "quantitative",
+      "title": "Recovery rate",
+      "format": ".0%",
+      "scale": {
+        "scheme": "greens"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "properties.LGA_NAME24",
+        "type": "nominal",
+        "title": "Council"
+      },
+      {
+        "field": "recovery_rate",
+        "type": "quantitative",
+        "title": "Recovery rate",
+        "format": ".1%"
+      },
+      {
+        "field": "landfill_kg_per_person",
+        "type": "quantitative",
+        "title": "Landfill kg/person",
+        "format": ".1f"
+      },
+      {
+        "field": "total_waste_tonnes",
+        "type": "quantitative",
+        "title": "Total waste tonnes",
+        "format": ",.0f"
+      }
+    ]
+  }
+}

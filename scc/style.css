@@ -1,0 +1,42 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f7f7f3;
+  color: #222;
+}
+
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+.hero {
+  padding: 48px 0;
+  border-bottom: 2px solid #ddd;
+}
+
+h1 {
+  font-size: 42px;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+h2 {
+  font-size: 26px;
+  margin-top: 0;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 760px;
+}
+
+.chart-section {
+  background: white;
+  margin: 32px 0;
+  padding: 28px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}

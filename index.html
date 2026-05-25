@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Where Does Victoria's Household Waste Go?</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/vega@6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
+</head>
+
+<body>
+  <main>
+    <section class="hero">
+      <h1>Where Does Victoria's Household Waste Go?</h1>
+      <p>
+        This visualisation explores how Victorian councils collect, recover,
+        recycle, and dispose of household waste.
+      </p>
+    </section>
+
+    <section class="chart-section">
+      <h2>1. Which councils recover the most waste?</h2>
+      <p>This map shows the share of waste recovered through recycling, organics and glass services.</p>
+      <div id="map_recovery_rate"></div>
+    </section>
+
+    <section class="chart-section">
+      <h2>2. Where is landfill waste highest per person?</h2>
+      <p>This map adjusts landfill waste by population so smaller councils can be compared fairly.</p>
+      <div id="map_landfill_per_person"></div>
+    </section>
+
+    <section class="chart-section">
+      <h2>3. How has total waste changed over time?</h2>
+      <div id="line_total_waste"></div>
+    </section>
+
+    <section class="chart-section">
+      <h2>4. Has recovered waste grown compared with landfill?</h2>
+      <div id="area_landfill_vs_recovered"></div>
+    </section>
+
+    <section class="chart-section">
+      <h2>5. Top councils by recovery rate</h2>
+      <div id="bar_top_recovery"></div>
+    </section>
+
+    <section class="chart-section">
+      <h2>6. Councils with the lowest recovery rate</h2>
+      <div id="bar_bottom_recovery"></div>
+    </section>
+
+    <section class="chart-section">
+      <h2>7. Recovery rate over time by council</h2>
+      <div id="heatmap_recovery_over_years"></div>
+    </section>
+
+    <section class="chart-section">
+      <h2>8. Do bigger councils produce more waste?</h2>
+      <div id="scatter_population_waste"></div>
+    </section>
+
+    <section class="chart-section">
+      <h2>9. Landfill waste per person by council</h2>
+      <div id="dot_landfill_per_person"></div>
+    </section>
+
+    <section class="chart-section">
+      <h2>10. Which councils improved the most?</h2>
+      <div id="slope_recovery_change"></div>
+    </section>
+
+    
+  </main>
+  <script>
+    vegaEmbed("#map_recovery_rate", "js/map_recovery_rate.vg.json", {actions: false});
+    vegaEmbed("#map_landfill_per_person", "js/map_landfill_per_person.vg.json", {actions: false});
+    vegaEmbed("#line_total_waste", "js/line_total_waste.vg.json", {actions: false});
+    vegaEmbed("#area_landfill_vs_recovered", "js/area_landfill_vs_recovered.vg.json", {actions: false});
+    vegaEmbed("#bar_top_recovery", "js/bar_top_recovery.vg.json", {actions: false});
+    vegaEmbed("#bar_bottom_recovery", "js/bar_bottom_recovery.vg.json", {actions: false});
+    vegaEmbed("#heatmap_recovery_over_years", "js/heatmap_recovery_over_years.vg.json", {actions: false});
+    vegaEmbed("#scatter_population_waste", "js/scatter_population_waste.vg.json", {actions: false});
+    vegaEmbed("#dot_landfill_per_person", "js/dot_landfill_per_person.vg.json", {actions: false});
+    vegaEmbed("#slope_recovery_change", "js/slope_recovery_change.vg.json", {actions: false});
+  </script>
+</body>
+</html>
