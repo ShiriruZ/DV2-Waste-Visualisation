@@ -1,0 +1,111 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 500,
+  "height": 460,
+  "title": {
+    "text": "Recovery rate change from 2001–02 to 2023–24 for selected councils",
+    "fontSize": 13,
+    "fontWeight": "bold"
+  },
+  "data": {
+    "url": "data/waste_lga_yearly.csv",
+    "format": {
+      "type": "csv",
+      "parse": { "recovery_rate": "number" }
+    }
+  },
+  "transform": [
+    { "filter": "datum.financial_year == '2001-2002' || datum.financial_year == '2023-2024'" },
+    { "filter": "isValid(datum.recovery_rate)" },
+    {
+      "filter": "indexof(['Manningham', 'Alpine', 'Bass Coast', 'Merri-Bek', 'Knox', 'Macedon Ranges', 'Surf Coast', 'Nillumbik', 'Boroondara', 'Yarra Ranges'], datum.lga_name) >= 0"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "point": { "filled": true, "size": 80 },
+        "strokeWidth": 2.5
+      },
+      "encoding": {
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "sort": ["2001-2002", "2023-2024"],
+          "title": null,
+          "axis": {
+            "labelAngle": -30,
+            "labelFontSize": 13,
+            "labelFontWeight": "bold",
+            "tickCount": 2
+          }
+        },
+        "y": {
+          "field": "recovery_rate",
+          "type": "quantitative",
+          "title": "Recovery rate",
+          "scale": { "domain": [0.1, 0.85] },
+          "axis": { "format": ".0%", "labelFontSize": 12 }
+        },
+        "color": {
+          "field": "lga_name",
+          "type": "nominal",
+          "title": "Council",
+          "scale": { "scheme": "tableau10" }
+        },
+        "tooltip": [
+          { "field": "lga_name", "type": "nominal", "title": "Council" },
+          { "field": "financial_year", "type": "ordinal", "title": "Financial year" },
+          { "field": "recovery_rate", "type": "quantitative", "title": "Recovery rate", "format": ".1%" }
+        ]
+      }
+    },
+    {
+      "transform": [{ "filter": "datum.financial_year == '2001-2002'" }],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -10,
+        "fontSize": 11
+      },
+      "encoding": {
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "sort": ["2001-2002", "2023-2024"]
+        },
+        "y": { "field": "recovery_rate", "type": "quantitative" },
+        "text": { "field": "lga_name", "type": "nominal" },
+        "color": {
+          "field": "lga_name",
+          "type": "nominal",
+          "scale": { "scheme": "tableau10" }
+        }
+      }
+    },
+    {
+      "transform": [{ "filter": "datum.financial_year == '2023-2024'" }],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "fontSize": 11
+      },
+      "encoding": {
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "sort": ["2001-2002", "2023-2024"]
+        },
+        "y": { "field": "recovery_rate", "type": "quantitative" },
+        "text": { "field": "lga_name", "type": "nominal" },
+        "color": {
+          "field": "lga_name",
+          "type": "nominal",
+          "scale": { "scheme": "tableau10" }
+        }
+      }
+    }
+  ]
+}

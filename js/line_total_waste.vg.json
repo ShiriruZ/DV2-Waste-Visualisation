@@ -1,0 +1,68 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 860,
+  "height": 360,
+  "title": {
+    "text": "Total household waste recorded by Victorian councils over time",
+    "fontSize": 14,
+    "fontWeight": "bold"
+  },
+  "data": {
+    "url": "data/waste_lga_yearly.csv",
+    "format": {
+      "type": "csv",
+      "parse": { "total_waste_tonnes": "number" }
+    }
+  },
+  "transform": [
+    { "filter": "isValid(datum.total_waste_tonnes)" },
+    {
+      "aggregate": [{ "op": "sum", "field": "total_waste_tonnes", "as": "total_waste" }],
+      "groupby": ["financial_year"]
+    }
+  ],
+  "layer": [
+    {
+      "mark": { "type": "line", "point": true, "strokeWidth": 3, "color": "#2166ac" },
+      "encoding": {
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "title": "Financial year",
+          "axis": {
+            "labelAngle": -45,
+            "labelFontSize": 11
+          }
+        },
+        "y": {
+          "field": "total_waste",
+          "type": "quantitative",
+          "title": "Total waste tonnes",
+          "axis": { "format": ",.0f" }
+        },
+        "tooltip": [
+          { "field": "financial_year", "type": "ordinal", "title": "Financial year" },
+          { "field": "total_waste", "type": "quantitative", "title": "Total waste (tonnes)", "format": ",.0f" }
+        ]
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "left", "dx": 6, "dy": -8, "fontSize": 11, "color": "#c0392b", "fontWeight": "bold" },
+      "transform": [{ "filter": "datum.financial_year == '2020-2021'" }],
+      "encoding": {
+        "x": { "field": "financial_year", "type": "ordinal" },
+        "y": { "field": "total_waste", "type": "quantitative" },
+        "text": { "value": "▲ Peak: 2020–21" }
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "left", "dx": 6, "dy": -8, "fontSize": 11, "color": "#27ae60", "fontWeight": "bold" },
+      "transform": [{ "filter": "datum.financial_year == '2022-2023'" }],
+      "encoding": {
+        "x": { "field": "financial_year", "type": "ordinal" },
+        "y": { "field": "total_waste", "type": "quantitative" },
+        "text": { "value": "↓ Declining" }
+      }
+    }
+  ]
+}

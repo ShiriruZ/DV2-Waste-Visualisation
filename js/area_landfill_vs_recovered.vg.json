@@ -1,0 +1,61 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 860,
+  "height": 380,
+  "title": {
+    "text": "Landfill waste compared with recovered waste over time",
+    "fontSize": 14,
+    "fontWeight": "bold"
+  },
+  "data": {
+    "url": "data/waste_lga_yearly.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "landfill_tonnes": "number",
+        "recovered_tonnes": "number"
+      }
+    }
+  },
+  "transform": [
+    { "filter": "isValid(datum.landfill_tonnes) && isValid(datum.recovered_tonnes)" },
+    {
+      "aggregate": [
+        { "op": "sum", "field": "landfill_tonnes", "as": "Landfill" },
+        { "op": "sum", "field": "recovered_tonnes", "as": "Recovered" }
+      ],
+      "groupby": ["financial_year"]
+    },
+    { "fold": ["Landfill", "Recovered"], "as": ["Waste stream", "Tonnes"] }
+  ],
+  "mark": { "type": "area", "opacity": 0.85 },
+  "encoding": {
+    "x": {
+      "field": "financial_year",
+      "type": "ordinal",
+      "title": "Financial year",
+      "axis": { "labelAngle": -45, "labelFontSize": 11 }
+    },
+    "y": {
+      "field": "Tonnes",
+      "type": "quantitative",
+      "title": "Tonnes",
+      "stack": true,
+      "axis": { "format": ",.0f" }
+    },
+    "color": {
+      "field": "Waste stream",
+      "type": "nominal",
+      "title": "Waste stream",
+      "scale": {
+        "domain": ["Landfill", "Recovered"],
+        "range": ["#4393c3", "#d6604d"]
+      }
+    },
+    "tooltip": [
+      { "field": "financial_year", "type": "ordinal", "title": "Financial year" },
+      { "field": "Waste stream", "type": "nominal" },
+      { "field": "Tonnes", "type": "quantitative", "format": ",.0f" }
+    ]
+  }
+}

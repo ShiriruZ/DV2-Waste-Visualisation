@@ -1,0 +1,76 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 760,
+  "height": 420,
+  "title": "Bottom 10 councils by recovery rate, 2023–24",
+  "data": {
+    "url": "data/waste_lga_yearly.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "recovery_rate": "number",
+        "total_waste_tonnes": "number"
+      }
+    }
+  },
+  "transform": [
+    {
+      "filter": "datum.financial_year == '2023-2024' && isValid(datum.recovery_rate)"
+    },
+    {
+      "window": [
+        {
+          "op": "rank",
+          "as": "rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "recovery_rate",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "filter": "datum.rank <= 10"
+    }
+  ],
+  "mark": {
+    "type": "bar"
+  },
+  "encoding": {
+    "y": {
+      "field": "lga_name",
+      "type": "nominal",
+      "sort": "x",
+      "title": "Council"
+    },
+    "x": {
+      "field": "recovery_rate",
+      "type": "quantitative",
+      "title": "Recovery rate",
+      "axis": {
+        "format": ".0%"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "lga_name",
+        "type": "nominal",
+        "title": "Council"
+      },
+      {
+        "field": "recovery_rate",
+        "type": "quantitative",
+        "title": "Recovery rate",
+        "format": ".1%"
+      },
+      {
+        "field": "total_waste_tonnes",
+        "type": "quantitative",
+        "title": "Total waste tonnes",
+        "format": ",.0f"
+      }
+    ]
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 860,
+  "height": 520,
+  "title": {
+    "text": "Top 20 councils by landfill waste per person, 2023–24",
+    "fontSize": 14,
+    "fontWeight": "bold"
+  },
+  "data": {
+    "url": "data/waste_lga_yearly.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "landfill_kg_per_person": "number",
+        "landfill_tonnes": "number",
+        "Population": "number"
+      }
+    }
+  },
+  "transform": [
+    { "filter": "datum.financial_year == '2023-2024' && isValid(datum.landfill_kg_per_person)" },
+    {
+      "window": [{ "op": "rank", "as": "rank" }],
+      "sort": [{ "field": "landfill_kg_per_person", "order": "descending" }]
+    },
+    { "filter": "datum.rank <= 20" }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "color": "#c0392b",
+        "cornerRadiusTopRight": 4,
+        "cornerRadiusBottomRight": 4
+      },
+      "encoding": {
+        "y": {
+          "field": "lga_name",
+          "type": "nominal",
+          "sort": "-x",
+          "title": "Council"
+        },
+        "x": {
+          "field": "landfill_kg_per_person",
+          "type": "quantitative",
+          "title": "Landfill kg per person",
+          "axis": { "grid": true }
+        },
+        "color": {
+          "field": "landfill_kg_per_person",
+          "type": "quantitative",
+          "scale": { "scheme": "reds" },
+          "legend": null
+        },
+        "tooltip": [
+          { "field": "lga_name", "type": "nominal", "title": "Council" },
+          { "field": "landfill_kg_per_person", "type": "quantitative", "title": "Landfill kg/person", "format": ".1f" },
+          { "field": "Population", "type": "quantitative", "title": "Population", "format": ",.0f" }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 5,
+        "fontSize": 11,
+        "color": "#333"
+      },
+      "encoding": {
+        "y": { "field": "lga_name", "type": "nominal", "sort": "-x" },
+        "x": { "field": "landfill_kg_per_person", "type": "quantitative" },
+        "text": { "field": "landfill_kg_per_person", "type": "quantitative", "format": ".0f" }
+      }
+    }
+  ]
+}

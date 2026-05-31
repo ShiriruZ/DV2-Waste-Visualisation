@@ -2,90 +2,292 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Where Does Victoria's Household Waste Go?</title>
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-
   <script src="https://cdn.jsdelivr.net/npm/vega@6"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@6"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
 </head>
-
 <body>
-  <main>
-    <section class="hero">
-      <h1>Where Does Victoria's Household Waste Go?</h1>
-      <p>
-        This visualisation explores how Victorian councils collect, recover,
-        recycle, and dispose of household waste.
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <span class="topbar-label">FIT2179 · Data Visualisation 2</span>
+    <span class="topbar-title">Victorian Household Waste · 2001–02 to 2023–24</span>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Victorian Waste Report</div>
+      <h1>Where Does Victoria's<br><em>Household Waste</em> Go?</h1>
+      <p class="hero-desc">
+        Victorian councils collect household garbage, recycling, glass and organics in different ways.
+        This visualisation shows where waste is being recovered, where landfill is still high,
+        and how council performance has changed from 2001–02 to 2023–24.
       </p>
-    </section>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">79</div>
+          <div class="stat-label">Councils tracked</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">2.31M</div>
+          <div class="stat-label">Tonnes of waste in 2023–24</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">52.7%</div>
+          <div class="stat-label">Average recovery rate 2023–24</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">23</div>
+          <div class="stat-label">Years of data</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <div class="page">
+
+    <!-- Summary cards -->
+    <div class="summary-grid" style="margin-top:36px;">
+      <div class="summary-card">
+        <h3>What is recovery rate?</h3>
+        <p>The share of household waste recovered through recycling, organics or glass services — instead of being sent to landfill. A rate of 100% would mean no household waste went to landfill at all.</p>
+      </div>
+      <div class="summary-card">
+        <h3>Why per person?</h3>
+        <p>A large city like Melbourne generates far more total waste than a small rural council — but that doesn't mean its residents waste more. Per-person measures level the playing field for fairer comparison.</p>
+      </div>
+      <div class="summary-card">
+        <h3>Who is this for?</h3>
+        <p>Designed for Australians who want an honest view of how their local council performs on waste recovery and landfill reduction — and how that compares to the rest of Victoria.</p>
+      </div>
+    </div>
+
+    <!-- ─── Section 1: Recovery rate map ─── -->
+    <div class="section-divider">
+      <div class="sec-num">1</div>
+      <div class="sec-rule"></div>
+    </div>
     <section class="chart-section">
-      <h2>1. Which councils recover the most waste?</h2>
-      <p>This map shows the share of waste recovered through recycling, organics and glass services.</p>
-      <div id="map_recovery_rate"></div>
+      <div class="section-text-chart">
+        <div class="section-text">
+          <h2>Which councils recover the most waste?</h2>
+          <p>The map shows each Local Government Area shaded by its 2023–24 recovery rate — the proportion of household waste diverted from landfill through kerbside recycling, organics, and glass programs. Darker green indicates stronger performance.</p>
+          <p>The highest-performing councils in 2023–24 are <strong>Manningham (75.0%)</strong>, <strong>Alpine (74.9%)</strong>, <strong>Bass Coast (73.2%)</strong>, and <strong>Merri-bek (72.5%)</strong>. These councils benefit from long-running organics collection programs, high participation rates, and well-funded local waste infrastructure.</p>
+          <p>At the other end, <strong>West Wimmera (13.2%)</strong>, <strong>Hindmarsh (16.0%)</strong>, and <strong>Yarriambiack (19.6%)</strong> lag far behind. These are small, sparsely populated councils in Victoria's far west where kerbside organics collection is either limited or absent entirely, and the economics of running recovery services over large distances are challenging.</p>
+          <p>The geographic pattern is striking: metropolitan Melbourne and its inner suburbs cluster in the mid-to-high range, but performance is not uniform — <strong>Melbourne CBD</strong> (28.9%) and <strong>Yarra</strong> (30.9%) underperform relative to their inner-suburban neighbours, suggesting that high-density apartment living reduces participation in kerbside recycling programs.</p>
+        </div>
+      </div>
+      <div id="map_recovery_rate" class="chart"></div>
     </section>
 
+    <!-- ─── Section 2: Landfill per person map ─── -->
+    <div class="section-divider">
+      <div class="sec-num">2</div>
+      <div class="sec-rule"></div>
+    </div>
     <section class="chart-section">
-      <h2>2. Where is landfill waste highest per person?</h2>
-      <p>This map adjusts landfill waste by population so smaller councils can be compared fairly.</p>
-      <div id="map_landfill_per_person"></div>
+      <div class="section-text-chart">
+        <div class="section-text">
+          <h2>Where is landfill waste highest per person?</h2>
+          <p>Adjusting for population reveals a dramatically different picture from total waste volumes. Councils that send the most waste to landfill per resident are almost entirely rural — and the gap is enormous.</p>
+          <p><strong>Buloke</strong> tops the list at <strong>376 kg per person</strong>, followed by <strong>Hindmarsh</strong> at 310 kg and <strong>Yarriambiack</strong> at 282 kg. By comparison, well-performing metropolitan councils such as <strong>Boroondara</strong> generate just 98 kg of landfill waste per resident — less than one-third of the rural worst performers.</p>
+          <p>The rural–urban gap is structural, not simply behavioural. Remote councils lack access to the organics processing facilities, materials recovery centres, and glass collection infrastructure that metropolitan councils take for granted. They also contend with lower population density, which makes kerbside services more expensive per household to operate.</p>
+          <p>It is worth noting that this metric measures <em>landfill</em>, not total waste generation. A council with a large amount of recovered waste can still generate a high volume of total waste — what matters here is specifically the proportion that ends up buried.</p>
+        </div>
+      </div>
+      <div id="map_landfill_per_person" class="chart"></div>
     </section>
 
+    <!-- ─── Section 3: Line chart ─── -->
+    <div class="section-divider">
+      <div class="sec-num">3</div>
+      <div class="sec-rule"></div>
+    </div>
     <section class="chart-section">
-      <h2>3. How has total waste changed over time?</h2>
-      <div id="line_total_waste"></div>
+      <h2>How has Victoria-wide household waste changed?</h2>
+      <p>Combining all council records reveals the long-term trajectory of total household waste across Victoria. From 2001–02, waste grew steadily — driven in roughly equal measure by population growth and increasing per-capita consumption — reaching approximately 2.31 million tonnes in 2023–24.</p>
+      <p>The most notable disruption is the sharp peak during 2020–21, when total waste reached its highest recorded level of around <strong>2.54 million tonnes</strong>. This aligns closely with the extended COVID-19 lockdowns, during which Victorians spent far more time at home, increased online shopping, and produced more domestic packaging waste. Hard waste and household goods disposal also surged as residents used lockdown time for home decluttering.</p>
+      <p>Since then, waste volumes have declined. The 2023–24 figure of 2.31 million tonnes is broadly in line with pre-pandemic levels, suggesting the pandemic spike was temporary rather than a structural shift in household behaviour. Population growth remains the underlying driver of long-term volume increases.</p>
+      <div class="chart-insight">
+        <span class="insight-icon">📈</span>
+        <div><strong>COVID peak in 2020–21</strong>Total waste jumped to 2.54M tonnes — the highest level in the dataset — before declining as pandemic restrictions eased and consumption patterns normalised.</div>
+      </div>
+      <div id="line_total_waste" class="chart"></div>
     </section>
 
+    <!-- ─── Section 4: Area chart ─── -->
+    <div class="section-divider">
+      <div class="sec-num">4</div>
+      <div class="sec-rule"></div>
+    </div>
     <section class="chart-section">
-      <h2>4. Has recovered waste grown compared with landfill?</h2>
-      <div id="area_landfill_vs_recovered"></div>
+      <h2>Has recovered waste grown compared with landfill?</h2>
+      <p>Breaking total waste into its landfill and recovered components tells a more encouraging story. Victoria's overall recovery rate has nearly doubled over the period — from <strong>28.8% in 2001–02 to 52.7% in 2023–24</strong> — meaning that more than half of household waste is now diverted from landfill.</p>
+      <p>The recovered layer in the area chart has expanded from roughly 450,000 tonnes in 2001–02 to over <strong>1.22 million tonnes</strong> in 2023–24. Much of this growth is attributable to the progressive rollout of kerbside organics collection, which processes food scraps and garden waste into compost rather than sending it to landfill. Glass separations and improved recycling processing have also contributed.</p>
+      <p>Meanwhile, the landfill component has declined in recent years — from its 2016–18 peak of around 1.27 million tonnes down to <strong>1.09 million tonnes</strong> in 2023–24. This is a meaningful improvement, though it still represents a substantial volume. Achieving further reductions will require both expanding recovery services to underperforming councils and increasing participation rates in councils that already have services in place.</p>
+      <div class="chart-insight">
+        <span class="insight-icon">♻️</span>
+        <div><strong>Recovery more than doubled since 2001</strong>From 450k tonnes recovered in 2001–02 to 1.22M tonnes in 2023–24, while landfill volumes have started declining from their 2017 peak.</div>
+      </div>
+      <div id="area_landfill_vs_recovered" class="chart"></div>
     </section>
 
+    <!-- ─── Sections 5 & 6: Bar pair ─── -->
+    <div class="section-divider">
+      <div class="sec-num">5–6</div>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="section-intro-block">
+      <h2>Best and worst performing councils in 2023–24</h2>
+      <p>Recovery rates across Victoria's 79 councils span a wide range — from just <strong>13% to 75%</strong> — reflecting deep structural differences in geography, income, infrastructure investment, and the types of services councils have chosen to fund. The two charts below compare the top and bottom 10 councils side by side.</p>
+      <p>The top performers are a mix of inner-metropolitan and coastal councils. What they share is long-running, well-funded organics collection programs and above-average community participation rates. The bottom performers are overwhelmingly rural councils in Victoria's northwest — areas where low population density makes kerbside services expensive to run and where state infrastructure investment has historically been lower.</p>
+    </div>
+    <div class="bar-pair">
+      <section class="chart-section bar-card">
+        <h3 class="bar-card-title bar-card-top">↑ Top 10 by recovery rate</h3>
+        <p class="bar-card-desc">Led by Manningham (75%) and Alpine (74.9%), the top councils combine organics programs with high community participation. Note that Alpine — a regional tourism council in the Victorian Alps — achieves results comparable to Melbourne's best metropolitan councils.</p>
+        <div id="bar_top_recovery" class="chart"></div>
+      </section>
+      <section class="chart-section bar-card">
+        <h3 class="bar-card-title bar-card-bottom">↓ Bottom 10 by recovery rate</h3>
+        <p class="bar-card-desc">West Wimmera (13%), Hindmarsh (16%) and Yarriambiack (20%) sit far below the state median. These councils serve very small populations spread across vast areas, making kerbside organics collection economically impractical without targeted state government support.</p>
+        <div id="bar_bottom_recovery" class="chart"></div>
+      </section>
+    </div>
+
+    <!-- ─── Section 7: Heatmap ─── -->
+    <div class="section-divider">
+      <div class="sec-num">7</div>
+      <div class="sec-rule"></div>
+    </div>
     <section class="chart-section">
-      <h2>5. Top councils by recovery rate</h2>
-      <div id="bar_top_recovery"></div>
+      <h2>Recovery rate over time for selected councils</h2>
+      <p>The heatmap shows how recovery rates have shifted across a selection of Victorian councils from 2001–02 to 2021–22. Each row is a council; each column is a financial year. Darker green cells indicate a higher proportion of waste diverted from landfill in that year.</p>
+      <p>The most immediate pattern is directional: reading from left (2001–02) to right (recent years), cells become consistently darker across nearly every council. This confirms the state-wide trend of improving recovery rates, driven by incremental expansions of kerbside programs, improved sorting technology at materials recovery facilities, and growing community awareness about recycling.</p>
+      <p>Some councils show sharp discontinuities — a sudden darkening in a particular year — which typically corresponds to the introduction of kerbside organics collection. Organics programs often add 15–25 percentage points to a council's recovery rate overnight, since food and garden waste makes up a large fraction of household bins.</p>
+      <p>There are also a few councils with visible dips in specific years, often coinciding with the collapse of the recycling commodities market in 2018–19, when Chinese import restrictions caused many Victorian councils to temporarily reduce or halt kerbside recycling services.</p>
+      <div class="chart-insight">
+        <span class="insight-icon">🟩</span>
+        <div><strong>A consistent shift to darker green</strong>Across almost every council, the right-hand columns are noticeably darker than the left — confirming that 2023 councils outperform their 2001 selves by a wide margin. Several that began below 20% now exceed 60%.</div>
+      </div>
+      <div id="heatmap_recovery_over_years" class="chart"></div>
     </section>
 
+    <!-- ─── Section 8: Scatter ─── -->
+    <div class="section-divider">
+      <div class="sec-num">8</div>
+      <div class="sec-rule"></div>
+    </div>
     <section class="chart-section">
-      <h2>6. Councils with the lowest recovery rate</h2>
-      <div id="bar_bottom_recovery"></div>
+      <h2>Do bigger councils produce more waste?</h2>
+      <p>Unsurprisingly, councils with larger populations generate more total household waste — the relationship is close to linear. What is more interesting is the colour dimension: recovery rate does <em>not</em> track population size.</p>
+      <p>Large councils such as <strong>Casey</strong> and <strong>Wyndham</strong> — fast-growing outer-suburban growth corridors — generate substantial total waste but achieve only moderate recovery rates. Meanwhile, mid-sized councils like <strong>Manningham</strong> and <strong>Boroondara</strong> combine large waste volumes with high recovery rates.</p>
+      <p>The outliers in the lower-right quadrant — high waste, low recovery — are the most concerning. They represent councils where both the volume problem and the recovery problem coincide, compounding landfill pressure. Population alone explains total waste volume, but council policy, infrastructure investment, and geographic access explain recovery performance. The scatter plot makes visible that these two dimensions are largely independent.</p>
+      <div id="scatter_population_waste" class="chart"></div>
     </section>
 
+    <!-- ─── Section 9: Dot plot ─── -->
+    <div class="section-divider">
+      <div class="sec-num">9</div>
+      <div class="sec-rule"></div>
+    </div>
     <section class="chart-section">
-      <h2>7. Recovery rate over time by council</h2>
-      <div id="heatmap_recovery_over_years"></div>
+      <h2>Which councils landfill is the most waste per person?</h2>
+      <p>This bar chart ranks the 20 councils with the highest landfill waste per resident in 2023–24. The figures are striking: <strong>Buloke</strong> sits at 376 kg per person, meaning the average resident sends nearly four times their own body weight to landfill every year. <strong>Hindmarsh</strong> (310 kg) and <strong>Yarriambiack</strong> (282 kg) follow closely behind.</p>
+      <p>All of the top 20 are rural or regional councils. Many are located in Victoria's northwest — the Wimmera and Mallee regions — where agricultural communities are spread across large distances and kerbside organics collection has not been introduced. These councils often serve populations of fewer than 10,000 people, making the per-capita economics of running recovery services especially challenging.</p>
+      <p>The contrast with well-performing metropolitan councils is stark. <strong>Boroondara</strong> generates just 98 kg of landfill waste per resident. <strong>Manningham</strong>, the top performer on recovery rate, produces around 88 kg. These differences cannot be explained by resident behaviour alone — they reflect decades of differential investment in waste infrastructure between metropolitan and regional Victoria.</p>
+      <div class="chart-insight">
+        <span class="insight-icon">🏘️</span>
+        <div><strong>A 4× gap between top and bottom</strong>Buloke's 376 kg/person is more than four times higher than Manningham's 88 kg — a gap that reflects infrastructure access, not individual behaviour.</div>
+      </div>
+      <div id="dot_landfill_per_person" class="chart"></div>
     </section>
 
+    <!-- ─── Section 10: Slope chart ─── -->
+    <div class="section-divider">
+      <div class="sec-num">10</div>
+      <div class="sec-rule"></div>
+    </div>
     <section class="chart-section">
-      <h2>8. Do bigger councils produce more waste?</h2>
-      <div id="scatter_population_waste"></div>
+      <h2>How did selected councils change from 2001–02 to 2023–24?</h2>
+      <p>The slope chart plots recovery rates for ten selected councils at two points in time: the start of the data period (2001–02, left) and the most recent year (2023–24, right). Every line slopes upward, confirming that all ten councils improved their recovery rate over the two-decade span.</p>
+      <p>The gains are substantial. Several councils that began the period below 20% — including <strong>Wodonga</strong> and <strong>Mornington Peninsula</strong> — now sit above 60%. The steepest improvements typically coincide with the introduction of kerbside food and garden organics collection, which in many councils was only rolled out in the late 2000s or early 2010s.</p>
+      <p>The chart also illustrates that starting position matters. Councils that were already performing well in 2001–02 generally maintained their advantage — the ranking of councils has been relatively stable even as all have improved. This suggests that early investment in recycling infrastructure created a durable lead that has been difficult for later adopters to close.</p>
+      <div class="chart-insight">
+        <span class="insight-icon">📊</span>
+        <div><strong>Every council improved</strong>All ten councils shown increased their recovery rate between 2001–02 and 2023–24 — some by more than 40 percentage points. The improvement reflects two decades of infrastructure investment and community behaviour change.</div>
+      </div>
+      <div id="slope_recovery_change" class="chart"></div>
     </section>
 
-    <section class="chart-section">
-      <h2>9. Landfill waste per person by council</h2>
-      <div id="dot_landfill_per_person"></div>
+    <!-- ─── Waste journey ─── -->
+    <section class="journey-section">
+      <h2>Waste journey</h2>
+      <div class="journey-subtitle">Where does your bin go?</div>
+      <div class="journey-grid">
+        <div class="journey-item">
+          <div class="journey-icon">🗑️</div>
+          <div class="journey-arrow">→</div>
+          <h4>Garbage bin</h4>
+          <p>General household waste collected kerbside each week</p>
+        </div>
+        <div class="journey-item">
+          <div class="journey-icon">♻️</div>
+          <div class="journey-arrow">→</div>
+          <h4>Mixed recycling</h4>
+          <p>Paper, plastic, metal and cardboard sorted at a materials recovery facility</p>
+        </div>
+        <div class="journey-item">
+          <div class="journey-icon">🌿</div>
+          <div class="journey-arrow">→</div>
+          <h4>Organics</h4>
+          <p>Food and garden material composted — the single largest contributor to improved recovery rates</p>
+        </div>
+        <div class="journey-item accent">
+          <div class="journey-icon">🏭</div>
+          <h4>Landfill</h4>
+          <p>What remains after recovery — the figure this page aims to shrink</p>
+        </div>
+      </div>
     </section>
 
-    <section class="chart-section">
-      <h2>10. Which councils improved the most?</h2>
-      <div id="slope_recovery_change"></div>
-    </section>
+    <!-- ─── Metadata ─── -->
+    <footer class="metadata">
+      <div class="meta-col">
+        <div class="meta-label">Author</div>
+        <div class="meta-value">Thien Phu Chung · 2026</div>
+      </div>
+      <div class="meta-col">
+        <div class="meta-label">Data sources</div>
+        <div class="meta-value">Victorian local government waste data 2025.02<br>ABS Local Government Area boundary file 2024</div>
+      </div>
+      <div class="meta-col">
+        <div class="meta-label">AI acknowledgement</div>
+        <div class="meta-value">Generative AI assistance was used for coding support and writing refinement in this project.</div>
+      </div>
+    </footer>
 
-    
-  </main>
+  </div><!-- /page -->
+
   <script>
-    vegaEmbed("#map_recovery_rate", "js/map_recovery_rate.vg.json", {actions: false});
-    vegaEmbed("#map_landfill_per_person", "js/map_landfill_per_person.vg.json", {actions: false});
-    vegaEmbed("#line_total_waste", "js/line_total_waste.vg.json", {actions: false});
-    vegaEmbed("#area_landfill_vs_recovered", "js/area_landfill_vs_recovered.vg.json", {actions: false});
-    vegaEmbed("#bar_top_recovery", "js/bar_top_recovery.vg.json", {actions: false});
-    vegaEmbed("#bar_bottom_recovery", "js/bar_bottom_recovery.vg.json", {actions: false});
-    vegaEmbed("#heatmap_recovery_over_years", "js/heatmap_recovery_over_years.vg.json", {actions: false});
-    vegaEmbed("#scatter_population_waste", "js/scatter_population_waste.vg.json", {actions: false});
-    vegaEmbed("#dot_landfill_per_person", "js/dot_landfill_per_person.vg.json", {actions: false});
-    vegaEmbed("#slope_recovery_change", "js/slope_recovery_change.vg.json", {actions: false});
+    const embedOpts = { actions: false, renderer: "svg" };
+    vegaEmbed("#map_recovery_rate",          "js/map_recovery_rate.vg.json",          embedOpts);
+    vegaEmbed("#map_landfill_per_person",     "js/map_landfill_per_person.vg.json",     embedOpts);
+    vegaEmbed("#line_total_waste",            "js/line_total_waste.vg.json",            embedOpts);
+    vegaEmbed("#area_landfill_vs_recovered",  "js/area_landfill_vs_recovered.vg.json",  embedOpts);
+    vegaEmbed("#bar_top_recovery",            "js/bar_top_recovery.vg.json",            embedOpts);
+    vegaEmbed("#bar_bottom_recovery",         "js/bar_bottom_recovery.vg.json",         embedOpts);
+    vegaEmbed("#heatmap_recovery_over_years", "js/heatmap_recovery_over_years.vg.json", embedOpts);
+    vegaEmbed("#scatter_population_waste",    "js/scatter_population_waste.vg.json",    embedOpts);
+    vegaEmbed("#dot_landfill_per_person",     "js/dot_landfill_per_person.vg.json",     embedOpts);
+    vegaEmbed("#slope_recovery_change",       "js/slope_recovery_change.vg.json",       embedOpts);
   </script>
 </body>
 </html>

@@ -1,0 +1,77 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 760,
+  "height": 420,
+  "title": "Population compared with total household waste, 2023–24",
+  "data": {
+    "url": "data/waste_lga_yearly.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "Population": "number",
+        "total_waste_tonnes": "number",
+        "recovery_rate": "number",
+        "landfill_kg_per_person": "number"
+      }
+    }
+  },
+  "transform": [
+    {
+      "filter": "datum.financial_year == '2023-2024' && isValid(datum.Population) && isValid(datum.total_waste_tonnes)"
+    }
+  ],
+  "mark": {
+    "type": "circle",
+    "opacity": 0.75,
+    "size": 90
+  },
+  "encoding": {
+    "x": {
+      "field": "Population",
+      "type": "quantitative",
+      "title": "Population",
+      "scale": {
+        "zero": false
+      }
+    },
+    "y": {
+      "field": "total_waste_tonnes",
+      "type": "quantitative",
+      "title": "Total waste tonnes"
+    },
+    "color": {
+      "field": "recovery_rate",
+      "type": "quantitative",
+      "title": "Recovery rate",
+      "format": ".0%",
+      "scale": {
+        "scheme": "greens"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "lga_name",
+        "type": "nominal",
+        "title": "Council"
+      },
+      {
+        "field": "Population",
+        "type": "quantitative",
+        "title": "Population",
+        "format": ",.0f"
+      },
+      {
+        "field": "total_waste_tonnes",
+        "type": "quantitative",
+        "title": "Total waste tonnes",
+        "format": ",.0f"
+      },
+      {
+        "field": "recovery_rate",
+        "type": "quantitative",
+        "title": "Recovery rate",
+        "format": ".1%"
+      }
+    ]
+  }
+}

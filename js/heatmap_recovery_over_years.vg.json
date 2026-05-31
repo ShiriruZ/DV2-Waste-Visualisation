@@ -1,0 +1,52 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 860,
+  "height": 360,
+  "title": {
+    "text": "Recovery rate over time for selected councils",
+    "fontSize": 14,
+    "fontWeight": "bold"
+  },
+  "data": {
+    "url": "data/waste_lga_yearly.csv",
+    "format": {
+      "type": "csv",
+      "parse": { "recovery_rate": "number" }
+    }
+  },
+  "transform": [
+    { "filter": "isValid(datum.recovery_rate)" },
+    {
+      "filter": "indexof(['Manningham', 'Alpine', 'Bass Coast', 'Merri-Bek', 'Knox', 'Mildura Rural', 'Macedon Ranges', 'Surf Coast', 'Nillumbik', 'Boroondara', 'Yarra Ranges', 'Wodonga'], datum.lga_name) >= 0"
+    }
+  ],
+  "mark": { "type": "rect" },
+  "encoding": {
+    "x": {
+      "field": "financial_year",
+      "type": "ordinal",
+      "title": "Financial year",
+      "axis": { "labelAngle": -45, "labelFontSize": 10 }
+    },
+    "y": {
+      "field": "lga_name",
+      "type": "nominal",
+      "title": "Council"
+    },
+    "color": {
+      "field": "recovery_rate",
+      "type": "quantitative",
+      "title": "Recovery rate",
+      "scale": {
+        "scheme": "viridis",
+        "domain": [0, 1]
+      },
+      "legend": { "format": ".0%" }
+    },
+    "tooltip": [
+      { "field": "lga_name", "type": "nominal", "title": "Council" },
+      { "field": "financial_year", "type": "ordinal", "title": "Financial year" },
+      { "field": "recovery_rate", "type": "quantitative", "title": "Recovery rate", "format": ".1%" }
+    ]
+  }
+} 
