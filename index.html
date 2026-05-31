@@ -145,9 +145,9 @@
       <div class="sec-rule"></div>
     </div>
     <div class="section-intro-block">
-      <h2>Best and worst performing councils in 2023–24</h2>
-      <p>Recovery rates across Victoria's 79 councils span a wide range — from just <strong>13% to 75%</strong> — reflecting deep structural differences in geography, income, infrastructure investment, and the types of services councils have chosen to fund. The two charts below compare the top and bottom 10 councils side by side.</p>
-      <p>The top performers are a mix of inner-metropolitan and coastal councils. What they share is long-running, well-funded organics collection programs and above-average community participation rates. The bottom performers are overwhelmingly rural councils in Victoria's northwest — areas where low population density makes kerbside services expensive to run and where state infrastructure investment has historically been lower.</p>
+      <h2>Best performers and where every council sits</h2>
+      <p>Recovery rates across Victoria's 79 councils span a wide range — from just <strong>13% to 75%</strong> — reflecting deep structural differences in geography, income, infrastructure investment, and the types of kerbside services councils have chosen to fund. The first chart highlights the top performers; the second plots all 79 councils against the state average to show the full distribution.</p>
+      <p>The top performers are a mix of inner-metropolitan and coastal councils. What they share is long-running, well-funded organics collection programs and above-average community participation rates. Across the full distribution, roughly half of councils exceed the 52.7% state average — but the spread is wide, and many rural councils in Victoria's northwest still send the majority of their waste to landfill.</p>
     </div>
     <div class="bar-pair">
       <section class="chart-section bar-card">
@@ -156,8 +156,8 @@
         <div id="bar_top_recovery" class="chart"></div>
       </section>
       <section class="chart-section bar-card">
-        <h3 class="bar-card-title bar-card-bottom">↓ Bottom 10 by recovery rate</h3>
-        <p class="bar-card-desc">West Wimmera (13%), Hindmarsh (16%) and Yarriambiack (20%) sit far below the state median. These councils serve very small populations spread across vast areas, making kerbside organics collection economically impractical without targeted state government support.</p>
+        <h3 class="bar-card-title bar-card-bottom">↔ All 79 councils vs state average</h3>
+        <p class="bar-card-desc">Each bar shows how far a council's recovery rate sits above or below the 52.7% state average — derived by calculating deviation from the mean. West Wimmera (−40 pp), Hindmarsh (−37 pp), and Yarriambiack (−33 pp) are the furthest below. At the other end, Manningham (+22 pp) and Alpine (+22 pp) lead by the same margin. The chart makes the full spread — and the structural gap between rural and metropolitan Victoria — immediately visible.</p>
         <div id="bar_bottom_recovery" class="chart"></div>
       </section>
     </div>
@@ -230,30 +230,53 @@
     <!-- ─── Waste journey ─── -->
     <section class="journey-section">
       <h2>Waste journey</h2>
-      <div class="journey-subtitle">Where does your bin go?</div>
+      <div class="journey-subtitle">Victoria's 2.31 million tonnes — where it went in 2023–24</div>
+
+      <!-- Proportional stream bar -->
+      <div class="stream-bar-wrap">
+        <div class="stream-bar">
+          <div class="stream-seg seg-landfill" style="width:47.3%">
+            <span class="seg-label">🏭 Landfill<br><strong>47.3%</strong><br>1.09M t</span>
+          </div>
+          <div class="stream-seg seg-organics" style="width:30.2%">
+            <span class="seg-label">🌿 Organics<br><strong>30.2%</strong><br>697k t</span>
+          </div>
+          <div class="stream-seg seg-recycling" style="width:17.8%">
+            <span class="seg-label">♻️ Recycling<br><strong>17.8%</strong><br>411k t</span>
+          </div>
+          <div class="stream-seg seg-other" style="width:4.7%">
+            <span class="seg-label seg-label-sm">Other<br>4.7%</span>
+          </div>
+        </div>
+        <div class="stream-legend">
+          <span class="legend-landfill">← 47.3% to landfill</span>
+          <span class="legend-recovered">52.7% recovered (diverted from landfill) →</span>
+        </div>
+      </div>
+
       <div class="journey-grid">
         <div class="journey-item">
           <div class="journey-icon">🗑️</div>
           <div class="journey-arrow">→</div>
           <h4>Garbage bin</h4>
-          <p>General household waste collected kerbside each week</p>
+          <p><strong style="color:#e07b5a;">1.09M tonnes</strong> sent to landfill — 47.3% of all household waste</p>
         </div>
         <div class="journey-item">
           <div class="journey-icon">♻️</div>
           <div class="journey-arrow">→</div>
           <h4>Mixed recycling</h4>
-          <p>Paper, plastic, metal and cardboard sorted at a materials recovery facility</p>
+          <p><strong style="color:#74b9c8;">411k tonnes</strong> recycled — paper, plastic, metal and cardboard at a materials recovery facility</p>
         </div>
         <div class="journey-item">
           <div class="journey-icon">🌿</div>
           <div class="journey-arrow">→</div>
           <h4>Organics</h4>
-          <p>Food and garden material composted — the single largest contributor to improved recovery rates</p>
+          <p><strong style="color:#74c896;">697k tonnes</strong> composted — the single largest recovery stream, now at 30% of total waste</p>
         </div>
         <div class="journey-item accent">
-          <div class="journey-icon">🏭</div>
-          <h4>Landfill</h4>
-          <p>What remains after recovery — the figure this page aims to shrink</p>
+          <div class="journey-icon">🫙</div>
+          <h4>Glass + other</h4>
+          <p><strong style="color:#c8c074;">109k tonnes</strong> via glass collection and other recovery programs — the fastest-growing stream</p>
         </div>
       </div>
     </section>

@@ -1,8 +1,15 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": 760,
-  "height": 420,
-  "title": "Bottom 10 councils by recovery rate, 2023–24",
+  "width": 860,
+  "height": {"step": 14},
+  "title": {
+    "text": "Every Victorian council vs state average recovery rate, 2023–24",
+    "fontSize": 14,
+    "fontWeight": "bold",
+    "subtitle": "Bars to the right are above the 52.7% state average; bars to the left are below — derived from each council's deviation",
+    "subtitleFontSize": 11,
+    "subtitleColor": "#5c5c52"
+  },
   "data": {
     "url": "data/waste_lga_yearly.csv",
     "format": {
@@ -18,59 +25,94 @@
       "filter": "datum.financial_year == '2023-2024' && isValid(datum.recovery_rate)"
     },
     {
-      "window": [
-        {
-          "op": "rank",
-          "as": "rank"
-        }
-      ],
-      "sort": [
-        {
-          "field": "recovery_rate",
-          "order": "ascending"
-        }
-      ]
+      "calculate": "datum.recovery_rate - 0.527",
+      "as": "deviation"
     },
     {
-      "filter": "datum.rank <= 10"
+      "calculate": "datum.deviation >= 0 ? 'Above state average' : 'Below state average'",
+      "as": "performance"
     }
   ],
-  "mark": {
-    "type": "bar"
-  },
-  "encoding": {
-    "y": {
-      "field": "lga_name",
-      "type": "nominal",
-      "sort": "x",
-      "title": "Council"
-    },
-    "x": {
-      "field": "recovery_rate",
-      "type": "quantitative",
-      "title": "Recovery rate",
-      "axis": {
-        "format": ".0%"
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "cornerRadiusTopRight": 2,
+        "cornerRadiusBottomRight": 2,
+        "cornerRadiusTopLeft": 2,
+        "cornerRadiusBottomLeft": 2
+      },
+      "encoding": {
+        "y": {
+          "field": "lga_name",
+          "type": "nominal",
+          "sort": {"field": "deviation", "order": "descending"},
+          "title": null,
+          "axis": {
+            "labelFontSize": 9.5,
+            "labelLimit": 130
+          }
+        },
+        "x": {
+          "field": "deviation",
+          "type": "quantitative",
+          "title": "Deviation from state average (52.7%)",
+          "axis": {
+            "format": "+.0%",
+            "grid": true,
+            "gridColor": "#ede8df",
+            "labelFontSize": 11
+          }
+        },
+        "color": {
+          "field": "performance",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Above state average", "Below state average"],
+            "range": ["#2ca25f", "#d73027"]
+          },
+          "title": null,
+          "legend": {
+            "orient": "top",
+            "direction": "horizontal",
+            "labelFontSize": 12,
+            "symbolSize": 150
+          }
+        },
+        "tooltip": [
+          {"field": "lga_name", "type": "nominal", "title": "Council"},
+          {"field": "recovery_rate", "type": "quantitative", "title": "Recovery rate", "format": ".1%"},
+          {"field": "deviation", "type": "quantitative", "title": "vs state average", "format": "+.1%"},
+          {"field": "total_waste_tonnes", "type": "quantitative", "title": "Total waste (tonnes)", "format": ",.0f"}
+        ]
       }
     },
-    "tooltip": [
-      {
-        "field": "lga_name",
-        "type": "nominal",
-        "title": "Council"
+    {
+      "mark": {
+        "type": "rule",
+        "color": "#333333",
+        "strokeWidth": 1.5,
+        "strokeDash": [4, 3]
       },
-      {
-        "field": "recovery_rate",
-        "type": "quantitative",
-        "title": "Recovery rate",
-        "format": ".1%"
-      },
-      {
-        "field": "total_waste_tonnes",
-        "type": "quantitative",
-        "title": "Total waste tonnes",
-        "format": ",.0f"
+      "encoding": {
+        "x": {"datum": 0}
       }
-    ]
-  }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "bottom",
+        "color": "#333333",
+        "fontWeight": "bold",
+        "fontSize": 10,
+        "dy": -4
+      },
+      "encoding": {
+        "x": {"datum": 0},
+        "y": {"value": 0},
+        "text": {"value": "State avg 52.7%"}
+      }
+    }
+  ]
 }

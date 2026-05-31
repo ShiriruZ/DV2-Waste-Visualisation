@@ -2,7 +2,14 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": 760,
   "height": 520,
-  "title": "Waste recovery rate by Victorian council, 2023–24",
+  "title": {
+    "text": "Waste recovery rate by Victorian council, 2023–24",
+    "fontSize": 14,
+    "fontWeight": "bold",
+    "subtitle": "State average: 52.7%  ·  Darker green = more waste diverted from landfill",
+    "subtitleFontSize": 11,
+    "subtitleColor": "#5c5c52"
+  },
   "data": {
     "url": "data/vic_lga_2024.json",
     "format": {
@@ -14,9 +21,7 @@
     {
       "lookup": "properties.LGA_NAME24",
       "from": {
-        "data": {
-          "url": "data/waste_latest.csv"
-        },
+        "data": {"url": "data/waste_latest.csv"},
         "key": "lga_name",
         "fields": [
           "landfill_kg_per_person",
@@ -27,13 +32,9 @@
         ]
       }
     },
-    {
-      "filter": "isValid(datum.recovery_rate)"
-    }
+    {"filter": "isValid(datum.recovery_rate)"}
   ],
-  "projection": {
-    "type": "mercator"
-  },
+  "projection": {"type": "mercator"},
   "mark": {
     "type": "geoshape",
     "stroke": "white",
@@ -44,39 +45,15 @@
       "field": "recovery_rate",
       "type": "quantitative",
       "title": "Recovery rate",
-      "scale": {
-        "scheme": "greens"
-      }
+      "scale": {"scheme": "greens"},
+      "legend": {"format": ".0%"}
     },
     "tooltip": [
-      {
-        "field": "lga_name",
-        "type": "nominal",
-        "title": "Council"
-      },
-      {
-        "field": "recovery_rate",
-        "type": "quantitative",
-        "title": "Recovery rate",
-        "format": ".1%"
-      },
-      {
-        "field": "total_waste_tonnes",
-        "type": "quantitative",
-        "title": "Total waste tonnes",
-        "format": ",.0f"
-      },
-      {
-        "field": "landfill_kg_per_person",
-        "type": "quantitative",
-        "title": "Landfill kg/person",
-        "format": ".1f"
-      }
+      {"field": "lga_name", "type": "nominal", "title": "Council"},
+      {"field": "recovery_rate", "type": "quantitative", "title": "Recovery rate", "format": ".1%"},
+      {"field": "total_waste_tonnes", "type": "quantitative", "title": "Total waste tonnes", "format": ",.0f"},
+      {"field": "landfill_kg_per_person", "type": "quantitative", "title": "Landfill kg/person", "format": ".1f"}
     ]
   },
-  "config": {
-    "view": {
-      "stroke": null
-    }
-  }
+  "config": {"view": {"stroke": null}}
 }

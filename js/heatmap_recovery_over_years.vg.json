@@ -5,48 +5,99 @@
   "title": {
     "text": "Recovery rate over time for selected councils",
     "fontSize": 14,
-    "fontWeight": "bold"
+    "fontWeight": "bold",
+    "subtitle": "Click a council row to highlight it — click again to reset",
+    "subtitleFontSize": 11,
+    "subtitleColor": "#5c5c52"
   },
   "data": {
     "url": "data/waste_lga_yearly.csv",
     "format": {
       "type": "csv",
-      "parse": { "recovery_rate": "number" }
+      "parse": {"recovery_rate": "number"}
     }
   },
   "transform": [
-    { "filter": "isValid(datum.recovery_rate)" },
+    {"filter": "isValid(datum.recovery_rate)"},
     {
       "filter": "indexof(['Manningham', 'Alpine', 'Bass Coast', 'Merri-Bek', 'Knox', 'Mildura Rural', 'Macedon Ranges', 'Surf Coast', 'Nillumbik', 'Boroondara', 'Yarra Ranges', 'Wodonga'], datum.lga_name) >= 0"
     }
   ],
-  "mark": { "type": "rect" },
-  "encoding": {
-    "x": {
-      "field": "financial_year",
-      "type": "ordinal",
-      "title": "Financial year",
-      "axis": { "labelAngle": -45, "labelFontSize": 10 }
+  "layer": [
+    {
+      "params": [
+        {
+          "name": "council_select",
+          "select": {
+            "type": "point",
+            "on": "click",
+            "fields": ["lga_name"]
+          }
+        }
+      ],
+      "mark": {"type": "rect", "cursor": "pointer"},
+      "encoding": {
+        "x": {
+          "field": "financial_year",
+          "type": "ordinal",
+          "title": "Financial year",
+          "axis": {"labelAngle": -45, "labelFontSize": 10}
+        },
+        "y": {
+          "field": "lga_name",
+          "type": "nominal",
+          "title": "Council"
+        },
+        "color": {
+          "field": "recovery_rate",
+          "type": "quantitative",
+          "title": "Recovery rate",
+          "scale": {"scheme": "viridis", "domain": [0, 1]},
+          "legend": {"format": ".0%"}
+        },
+        "opacity": {
+          "condition": {
+            "param": "council_select",
+            "value": 1
+          },
+          "value": 0.15
+        },
+        "tooltip": [
+          {"field": "lga_name", "type": "nominal", "title": "Council"},
+          {"field": "financial_year", "type": "ordinal", "title": "Financial year"},
+          {"field": "recovery_rate", "type": "quantitative", "title": "Recovery rate", "format": ".1%"}
+        ]
+      }
     },
-    "y": {
-      "field": "lga_name",
-      "type": "nominal",
-      "title": "Council"
-    },
-    "color": {
-      "field": "recovery_rate",
-      "type": "quantitative",
-      "title": "Recovery rate",
-      "scale": {
-        "scheme": "viridis",
-        "domain": [0, 1]
+    {
+      "mark": {
+        "type": "rule",
+        "color": "#c0392b",
+        "strokeWidth": 2,
+        "strokeDash": [4, 2]
       },
-      "legend": { "format": ".0%" }
+      "data": {"values": [{"financial_year": "2018-2019"}]},
+      "encoding": {
+        "x": {"field": "financial_year", "type": "ordinal"}
+      }
     },
-    "tooltip": [
-      { "field": "lga_name", "type": "nominal", "title": "Council" },
-      { "field": "financial_year", "type": "ordinal", "title": "Financial year" },
-      { "field": "recovery_rate", "type": "quantitative", "title": "Recovery rate", "format": ".1%" }
-    ]
-  }
-} 
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "color": "#c0392b",
+        "fontSize": 9,
+        "fontWeight": "bold",
+        "dx": 4,
+        "dy": 4
+      },
+      "data": {"values": [{"financial_year": "2018-2019"}]},
+      "encoding": {
+        "x": {"field": "financial_year", "type": "ordinal"},
+        "y": {"value": 0},
+        "text": {"value": "China ban →"}
+      }
+    }
+  ]
+}

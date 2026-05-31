@@ -511,3 +511,56 @@ body {
   .metadata { flex-direction: column; }
   .topbar-title { display: none; }
 }
+/* ── Waste stream proportional bar (journey section) ── */
+.stream-bar-wrap {
+  margin: 24px 0 36px;
+}
+.stream-bar {
+  display: flex;
+  height: 68px;
+  border-radius: 10px;
+  overflow: hidden;
+  gap: 2px;
+}
+.stream-seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
+}
+.stream-seg:hover { opacity: 0.85; cursor: default; }
+.seg-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.92);
+  text-align: center;
+  line-height: 1.45;
+  padding: 4px 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+.seg-label strong {
+  display: block;
+  font-size: 13px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+}
+.seg-label-sm { font-size: 9.5px; }
+.seg-landfill  { background: #c0392b; }
+.seg-organics  { background: #1a7340; }
+.seg-recycling { background: #1e6b9a; }
+.seg-other     { background: rgba(255,255,255,0.18); }
+.stream-legend {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 11.5px;
+  color: rgba(255,255,255,0.45);
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: 0.2px;
+}
+.legend-landfill  { color: rgba(255,130,110,0.7); }
+.legend-recovered { color: rgba(130,210,150,0.7); }
